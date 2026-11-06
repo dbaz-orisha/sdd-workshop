@@ -1,1 +1,30 @@
 when	who	what	why	evidence
+2026-11-06	group-4	Marketing creates promotions on a page.	not given	"Accept all three recommendations"; "No changes, what you said is fine"
+2026-11-06	group-4	Automatically apply the best eligible non-stacking promotion and show the cashier what was applied.	not given	"Accept all three recommendations"; "No changes, what you said is fine"
+2026-11-06	group-4	Show savings in one compact receipt summary line.	not given	"Accept all three recommendations"; "No changes, what you said is fine"
+2026-11-06	group-4	Support percentage discounts, second unit half price, and buy three/pay two.	not given	"1. All of them"
+2026-11-06	group-4	Marketing defines product links to one or more promotions.	not given	"product linked to the discounts they want to offer the specific or specifics promotion(s)"
+2026-11-06	group-4	Select the best customer deal.	not given	"3. Best deal case"
+2026-11-06	group-4	Promotions have priority; highest priority resolves equal-price ties.	not given	Answer to ties question: "the one with highest priority applying to that product"
+2026-11-06	group-4	Recalculate discounts when basket quantities or contents change.	not given	"5. The discounts should be calculated again"
+2026-11-06	group-4	Omit the receipt savings summary when savings are zero.	not given	"6. Yes, omit"
+2026-11-06	group-4	Marketing defines eligible shops and date ranges for promotions.	not given	"to which shops the discount needs to apply and the date range"
+2026-11-06	group-4	Buy three/pay two grouping is configurable: same product only or mixing products linked to the promotion, with one setting for the whole promotion.	not given	"it should be configurable"; "One setting for the whole promotion"
+2026-11-06	group-4	Marketing chooses cheapest or most expensive eligible unit free for buy three/pay two, with one setting per promotion.	not given	"make it configurable by the marketing team per case"; "One setting per promotion"
+2026-11-06	group-4	Marketing configures multi-unit promotion repetition: once per basket or every qualifying group.	not given	"Marketing configures repetition per promotion"
+2026-11-06	group-4	Choose the valid non-stacking promotion combination with the lowest total basket price, respecting marketing's configured rules.	not given	"Lowest total basket price"
+2026-11-06	group-4	Use promotion-wide marketing-configurable grouping and cheapest/most-expensive discounted-unit settings for both supported multi-unit offer types, including second unit at half price.	not given	"it should be always configurable for the marketing team to decide how it will apply"
+2026-11-06	group-4	Resolve equal basket prices by highest then next-highest promotion priorities; use stable promotion identifiers for remaining ties, never overriding a lower price.	not given	"Accept the proposed rule"
+2026-11-06	group-4	Positive whole-number priorities; missing comparison entries rank below configured priorities; stable IDs resolve remaining ties.	not given	Approved final acceptance rules: approve=true
+2026-11-06	group-4	Require valid names, types, products, shops, priorities, dates and applicable multi-unit settings; percentage is greater than 0 and at most 100; reject invalid definitions with visible errors.	not given	Approved final acceptance rules: approve=true
+2026-11-06	group-4	Offer date ranges include both boundaries using the selected shop's local date.	not given	Approved final acceptance rules: approve=true
+2026-11-06	group-4	Calculate EUR cents with half-up rounding of discounted unit prices; derive totals and savings from rounded prices.	not given	Approved final acceptance rules: approve=true
+2026-11-06	group-4	Use current valid promotion definitions on the next basket calculation; production rollout guarantees are outside this exercise.	not given	Approved final acceptance rules: approve=true
+2026-11-06	group-4	Approve ticket 000: default agent limit 300 seconds, per-job timeout test 2 seconds, app-only agent changes plus run artifacts, missing/incomplete reports red.	not given	Node guardrail approval: approve=true
+2026-11-06	group-4	Run the node worker in the group's own terminal; chief prepares the signed ticket and command because this session has no terminal canvas.	not given	"prepare the ticket, and give me the command you need I run in the terminal"
+2026-11-06	chief	Node acceptance blocked pending existing-contract fixes: failed-command diagnostics are overwritten and the malformed-job file-list assertion accepts extra files.	Passing checks do not prove these requirements.	Independent reproduction: diagnostic absent from report.md; file-list assertion returned exit 0 with extra.txt
+2026-11-06	group-4	Node exercise verification completed: all 29 strengthened checks passed in the group's terminal, including both regression cases.	Failed-command diagnostics and exact malformed-job artifacts are now covered.	User supplied complete output of sh graph/tests/test-node.sh: 29 ok lines, no FAIL
+2026-11-06	group-4	Configure check and review steps with two repair rounds each, then a person decides; worker or delivery failure stops.	not given	Graph settings approved: approve=true; rounds semantics in graph/PATH.md
+2026-11-06	group-4	Reviewer blocks written-contract violations, failing/weakened tests, out-of-scope changes and incorrect promotion behavior, not style preferences or new features.	not given	Graph settings approved: approve=true
+2026-11-06	group-4	A person reviews and merges; delivery opens the pull request but never merges automatically.	not given	Graph settings approved: approve=true
+2026-11-06	group-4	Graph runner verification completed: all 74 checks passed, including isolation, retries, delivery and interrupted-run recovery.	Full runner test is green before launching product ticket 001.	User supplied complete output of sh graph/tests/test-run.sh: 74 ok lines, no FAIL; Killed lines belong to interruption scenarios

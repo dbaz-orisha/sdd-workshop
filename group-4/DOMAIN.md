@@ -43,7 +43,7 @@ quicker to build and harder to break.
 
 What we know: Promotions change every Monday, and IT is one person two days a week.
 
-**Decision:** _pending_
+**Decision:** Marketing creates promotions on a page. Reason: not given.
 
 ### 2. When a promotion applies
 
@@ -53,7 +53,7 @@ the cashier explain it to the customer.
 What we know: 1 promoted basket in 8 was charged wrong when the cashier applied it by
 hand.
 
-**Decision:** _pending_
+**Decision:** Promotions apply automatically at the till. Apply the best eligible promotion for the customer, without stacking, and show the cashier what was applied. Reason: not given.
 
 ### 3. Savings on the receipt
 
@@ -62,4 +62,4 @@ receipt short.
 
 What we know: Customers who see what they saved come back more often; the paper is narrow.
 
-**Decision:** _pending_
+**Decision:** Show savings as one compact summary line on the receipt, without lengthy promotion descriptions. Reason: not given.
