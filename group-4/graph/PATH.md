@@ -18,8 +18,8 @@ The same drawing as an image: `graph/path.png`.
 {"step":1,"name":"prepare","kind":"commands","dir":".","run":"sh graph/copy.sh <workspace> <run>","on_red":"stop"}
 {"step":2,"name":"work","kind":"agent","dir":"app","skill":"worker","agent":"graph/copilot.sh","limit":300,"on_red":"stop"}
 {"step":3,"name":"check","kind":"commands","dir":"app","run":"sh app/check.sh lint && sh app/check.sh test","on_red":2,"rounds":2}
-{"step":4,"name":"review","kind":"agent","dir":"app","skill":"reviewer","agent":"graph/copilot.sh","limit":180,"on_red":2,"rounds":2}
-{"step":5,"name":"deliver","kind":"commands","dir":"app","run":"git add -A app && { git diff --cached --quiet; code=$?; case $code in 0) : ;; 1) git commit -qm '<ticket>' -m 'Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>' ;; *) exit \"$code\" ;; esac; } && git push -u origin HEAD && sh graph/pr.sh <ticket> <run>","on_red":"stop"}
+{"step":4,"name":"review","kind":"agent","dir":"app","skill":"reviewer","agent":"graph/copilot.sh","limit":300,"on_red":2,"rounds":2}
+{"step":5,"name":"deliver","kind":"commands","dir":"app","run":"git add -A app && { git diff --cached --quiet; code=$?; case $code in 0) : ;; 1) git commit -qm '<ticket>' -m 'Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>' ;; *) exit \"$code\" ;; esac; } && git push -u origin HEAD && GH_REPO=dbaz-orisha/sdd-workshop sh graph/pr.sh <ticket> <run>","on_red":"stop"}
 ```
 
 Each line is a job for the node, plus three fields for the path: `name`, `on_red` (`"stop"`,
@@ -28,11 +28,24 @@ Three words in a `run` line are replaced before the node sees it: `<ticket>` is 
 name (`001-basket-total`), `<run>` is the run's name (`001-basket-total`, then
 `001-basket-total-2`, `-3`), `<workspace>` is the run's copy, `graph/runs/<run>/workspace`.
 
-Delivery creates a commit only when staged app changes exist. If authentication
-interrupts the push after the commit was created, resuming step 5 reuses that
-commit instead of failing on "nothing to commit". Errors checking staged changes
-still stop delivery. Stop the original run before resuming, and configure Git's
-credential helper after browser login when using GitHub CLI authentication.
+## Group-4 delivery mode: personal fork
+
+The group requested a personal fork because shared-repository write access is
+unavailable. The main checkout and retained 001 copy use
+`https://github.com/dbaz-orisha/sdd-workshop.git` as `origin`; the original
+repository is preserved as `upstream`. Future copies inherit the fork target.
+
+Step 5 commits only when staged app changes exist, pushes the run branch to the
+fork, and opens its PR against the fork using explicit `GH_REPO`. A person merges.
+Errors checking staged changes still stop delivery. A retry reuses an existing
+commit rather than failing on "nothing to commit". Before running dependent
+tickets, incorporate accepted prerequisite code into the committed starting
+branch and verify the app.
+
+The original 001 run remains recorded as red because its attempted remote push
+to the original repository was denied. Its already-tested and reviewed branch
+can be pushed from its retained copy to the fork without rerunning the worker.
+Do not rewrite that run's history merely to change its colour.
 
 ## A run is a folder and a copy
 
@@ -45,8 +58,9 @@ own branch; launched after its run stopped halfway, it picks that run up (below)
   like `run.sh`. The copy is an isolated clone, as ATM makes one for every run: its own
   `.git`, from the last commit, on a branch named after the run that lives only in the
   clone. The repository gets no branch and no worktree from a run, so no other run, session
-  or copy of the repository ever meets it. The clone's `origin` is the repository's, so
-  step 5 pushes there. If the folder already exists, step 1 is red: nothing is touched.
+  or copy of the repository ever meets it. The clone's `origin` is the repository's
+  fork target. If the folder already exists, step 1 is
+  red: nothing is touched.
 - **Every later step runs inside the copy**, in the group's folder there. `dir`, `ticket`,
   `agent` and the skills are read from the copy; `app/` in the group folder never changes
   while a run goes. The step's own folder stays in `graph/runs/<run>/`, outside the copy.
@@ -62,7 +76,7 @@ own branch; launched after its run stopped halfway, it picks that run up (below)
   finished is done again, a green one is not, and after a `back` it goes to its `to`. If
   the copy is there, step 1 is not done again. A run whose process is alive is still
   going: it is left alone, and the ticket gets a new run.
-- **Step 5 pushes the run's branch** and opens the pull request with `graph/pr.sh`, given
+- **In remote-delivery mode, step 5 pushes the run's branch** and opens the pull request with `graph/pr.sh`, given
   like `run.sh`: `sh graph/pr.sh <ticket> <run>` writes `graph/runs/<run>/pr.md` from what
   the run left (the ticket's title and GOAL; what the worker changed and checked, from the
   report of the first agent step; the reviewer's verdict and notes, from the report of the

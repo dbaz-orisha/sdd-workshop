@@ -1,8 +1,16 @@
 # Tasks
 
-All implementation tasks are pending. The group reviews the worker briefs in
+Implementation checkboxes are updated after accepted work is incorporated and
+verified in the committed starting code. The group reviews the worker briefs in
 [tickets/](../../../tickets/) before backlog sign-off; writing this checklist
 does not authorize starting a worker.
+
+Delivery targets the personal fork `dbaz-orisha/sdd-workshop`: push each run
+branch there and open its PR against the fork, with human merge. Incorporate
+accepted prerequisite code into the committed starting branch before running
+dependent tickets. The first 001 run passed implementation, checks and review
+but delivery to the original repository was denied; publishing its existing
+branch to the fork is pending.
 
 ## 1. Core pricing contracts
 
@@ -43,4 +51,5 @@ No ticket is marked complete until its VERIFY passes.
 - Review the eight worker briefs with group-4; adjust scope and acceptance as requested.
 - Record backlog sign-off only after the group has reviewed and approved these tickets.
 - Implement only through an explicitly assigned worker ticket in the later workshop flow.
+- Merge accepted PRs in the personal fork and incorporate the prerequisite code into the committed starting branch before proceeding to dependent tickets.
 - After all tickets pass and review is accepted, archive the change with OpenSpec to update the living specifications.
