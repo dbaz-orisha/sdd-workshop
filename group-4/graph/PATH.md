@@ -19,7 +19,7 @@ The same drawing as an image: `graph/path.png`.
 {"step":2,"name":"work","kind":"agent","dir":"app","skill":"worker","agent":"graph/copilot.sh","limit":300,"on_red":"stop"}
 {"step":3,"name":"check","kind":"commands","dir":"app","run":"sh app/check.sh lint && sh app/check.sh test","on_red":2,"rounds":2}
 {"step":4,"name":"review","kind":"agent","dir":"app","skill":"reviewer","agent":"graph/copilot.sh","limit":180,"on_red":2,"rounds":2}
-{"step":5,"name":"deliver","kind":"commands","dir":"app","run":"git add -A app && git commit -qm <ticket> && git push -u origin HEAD && sh graph/pr.sh <ticket> <run>","on_red":"stop"}
+{"step":5,"name":"deliver","kind":"commands","dir":"app","run":"git add -A app && { git diff --cached --quiet; code=$?; case $code in 0) : ;; 1) git commit -qm '<ticket>' -m 'Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>' ;; *) exit \"$code\" ;; esac; } && git push -u origin HEAD && sh graph/pr.sh <ticket> <run>","on_red":"stop"}
 ```
 
 Each line is a job for the node, plus three fields for the path: `name`, `on_red` (`"stop"`,
@@ -27,6 +27,12 @@ or the number of the step to go back to) and `rounds` (how many times; 2 when ab
 Three words in a `run` line are replaced before the node sees it: `<ticket>` is the ticket's
 name (`001-basket-total`), `<run>` is the run's name (`001-basket-total`, then
 `001-basket-total-2`, `-3`), `<workspace>` is the run's copy, `graph/runs/<run>/workspace`.
+
+Delivery creates a commit only when staged app changes exist. If authentication
+interrupts the push after the commit was created, resuming step 5 reuses that
+commit instead of failing on "nothing to commit". Errors checking staged changes
+still stop delivery. Stop the original run before resuming, and configure Git's
+credential helper after browser login when using GitHub CLI authentication.
 
 ## A run is a folder and a copy
 
