@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Money percentage</title>
+</head>
+<body>
+  <pre id="result"></pre>
+  <script src="check.js"></script>
+  <script src="../money.js"></script>
+  <script>
+    (function () {
+      var money = window.ShopPromotions.money;
+      var jacketPrice = 10000;
+      var jacketDiscounted = money.discountedUnitPrice(jacketPrice, 20);
+      var unitPrice = money.discountedUnitPrice(101, 50);
+
+      check("a 20 percent discount makes EUR 100 cost EUR 80", jacketDiscounted, 8000);
+      check("a percentage discount does not change its input price", jacketPrice, 10000);
+      check("half-cent final prices round up", unitPrice, 51);
+      check("two rounded discounted units total EUR 1.02", unitPrice + unitPrice, 102);
+      check("two independently discounted units save EUR 1.00", (101 + 101) - (unitPrice + unitPrice), 100);
+      check("a 100 percent discount makes the price zero", money.discountedUnitPrice(800, 100), 0);
+      check("fractional percentages preserve exact pricing", money.discountedUnitPrice(800, 12.5), 700);
+      checkThrows("negative cent values are rejected", function () {
+        money.discountedUnitPrice(-1, 20);
+      }, "priceCents");
+      checkThrows("non-integer cent values are rejected", function () {
+        money.discountedUnitPrice(100.5, 20);
+      }, "priceCents");
+      checkThrows("non-finite cent values are rejected", function () {
+        money.discountedUnitPrice(Infinity, 20);
+      }, "priceCents");
+      checkThrows("unsafe cent values are rejected", function () {
+        money.discountedUnitPrice(Number.MAX_SAFE_INTEGER + 1, 20);
+      }, "priceCents");
+      checkThrows("non-finite percentages are rejected", function () {
+        money.discountedUnitPrice(100, Infinity);
+      }, "percentage");
+      checkThrows("zero percentages are rejected", function () {
+        money.discountedUnitPrice(100, 0);
+      }, "percentage");
+      checkThrows("negative percentages are rejected", function () {
+        money.discountedUnitPrice(100, -1);
+      }, "percentage");
+      checkThrows("percentages above 100 are rejected", function () {
+        money.discountedUnitPrice(100, 101);
+      }, "percentage");
+    }());
+  </script>
+</body>
+</html>
